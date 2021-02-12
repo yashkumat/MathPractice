@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Math Practice</title>
+    <style>
+        #sign .material-icons{
+            font-size: 40px !important;
+        }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+        <div class="row m-4">
+            <div class="col-6">
+                <div class="d-flex justify-content-start">
+                    <p class="lead">
+                        Welcome<span id="playersName"> </span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-6 visually-hidden" id="score-card">
+                <div class="d-flex justify-content-end">
+                    <p class="lead">
+                        Score: <span id="score"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <h1 class="display-1">Math Practice</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4" id="enter">
+            <div class="col-6 offset-3">
+                <div class="d-flex justify-content-center">
+                    <div class="input-group mb-3" >
+                        <input type="text" class="form-control" id="username" placeholder="Player's name ..." aria-label="username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-success" id="startBtn" type="button" onclick="return start()" id="button-addon2">start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-4 offset-4">
+                <h1>
+                    <span id="firstNumber">
+                    </span>
+                </h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="d-flex justify-content-center">
+                        <span id="sign"></span>
+                </div>
+            </div>
+            <div class="col-4">
+                    <h1>
+                        <span id="secondNumber">
+                        </span>
+                    </h1>
+            </div>
+        </div>
+        <div class="row justify-content-center visually-hidden" id="dash">
+            <div class="col-6">
+                <hr>
+            </div>
+        </div>
+        <div class="row justify-content-center visually-hidden" id="inputBox">
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="userAnswer" onkeypress="return searchKeyPress(event);" placeholder="Your answer here..." aria-label="Your answer here..." aria-describedby="button-addon2">
+                    <button id="check" class="btn btn-outline-primary" type="button" id="button-addon2" onclick="return check()">Check</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="position-relative mt-4" id="thumb_up_down">
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <span id="win" class="material-icons visually-hidden">thumb_up</span>
+            <span id="lost" class="material-icons visually-hidden">thumb_down</span>
+        </div>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    <script>
+
+        let firstNumber = document.getElementById('firstNumber');
+        let secondNumber = document.getElementById('secondNumber');
+        let sign = document.getElementById('sign');
+        let score = 0
+
+        let firstVal,secondVal,signVal,result;
+
+        function setValues(){
+
+            firstVal = Math.floor(Math.random()*100)
+            secondVal = Math.floor(Math.random()*100)
+            signVal = Math.floor(Math.random() * 3)
+
+            if(signVal == 2){
+                firstVal = Math.floor(Math.random()*10)
+                secondVal = Math.floor(Math.random()*10)
+            }
+
+            if(signVal == 1){
+                if(secondVal > firstVal){
+                    [firstVal, secondVal] = [secondVal, firstVal]
+                }
+            }
+
+            if(firstVal < 10){
+                firstVal = '0'+firstVal
+            }
+
+            if(secondVal < 10){
+                secondVal = '0'+secondVal
+            }
+
+            firstNumber.innerHTML = firstVal
+            secondNumber.innerHTML = secondVal
+
+            if(signVal == 0){
+                sign.innerHTML = '<span class="material-icons">add</span>'
+            }else if(signVal == 1){
+                sign.innerHTML = '<span class="material-icons">remove</span>'
+            }else if(signVal == 2){
+                sign.innerHTML = '<span class="material-icons">close</span>'
+            }
+        }
+
+        function start(){
+            setValues()
+
+            let dash = document.getElementById('dash');
+            let inputBox = document.getElementById('inputBox');
+            let startBtn = document.getElementById('startBtn');
+            let username = document.getElementById('username').value
+
+            if(username != ''){
+                document.getElementById('playersName').innerHTML = ", "+username+'!'
+            }else{
+                document.getElementById('playersName').innerHTML = ", Guest!"
+            }
+
+            dash.classList.remove('visually-hidden')
+            inputBox.classList.remove('visually-hidden')
+            enter.classList.add('visually-hidden')
+            document.getElementById('score-card').classList.remove('visually-hidden')
+            document.getElementById('score').innerHTML = 0
+        }
+
+        function check(){
+            let userAnswer = document.getElementById('userAnswer').value;
+
+            if(signVal == 0){
+                result = firstVal + secondVal
+            }else if(signVal == 1){
+                result = firstVal - secondVal
+            }else if(signVal == 2){
+                result = firstVal*secondVal
+            }
+            
+            if(result ==  userAnswer){
+                score++
+                document.getElementById('lost').classList.add('visually-hidden')
+                document.getElementById('win').classList.remove('visually-hidden')
+            }else{
+                score = score - 0.25
+                document.getElementById('win').classList.add('visually-hidden')
+                document.getElementById('lost').classList.remove('visually-hidden')
+            }
+
+            setValues()
+            
+            document.getElementById('userAnswer').value = null
+            document.getElementById('score').innerHTML = score
+        }
+
+        function searchKeyPress(e)
+        {
+            e = e || window.event;
+            if (e.keyCode == 13)
+            {
+                document.getElementById('check').click();
+                return false;
+            }
+            return true;
+        }
+
+        
+    </script>
+  </body>
+</html>
