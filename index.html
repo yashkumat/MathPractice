@@ -42,7 +42,7 @@
         <div class="row m-4">
             <div class="col-12">
                 <div class="d-flex justify-content-start">
-                    <button class="btn btn-outline-danger" onclick="return exit()">Exit </button>
+                    <button class="btn btn-outline-danger visually-hidden" id="exitButton" onclick="return exit()">Exit </button>
                 </div>
             </div>
             <div class="col-6 mt-4">
@@ -198,6 +198,7 @@
             document.getElementById('score-card').classList.remove('visually-hidden')
             document.getElementById('score').innerHTML = 0
             document.getElementById('userAnswer').focus()
+            document.getElementById('exitButton').classList.remove('visually-hidden')
         }
 
         function check(){
@@ -292,3 +293,7 @@
     </script>
   </body>
 </html>
+
+
+
+
