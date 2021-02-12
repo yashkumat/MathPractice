@@ -6,6 +6,6 @@
 ###### link - https://yashkumat.github.io/MathPractice/
 
 * To be used by - 
-  * Anyone want to pass time productively
+  * Anyone wants to kill time productively
   * One who wants to get grip on fast calculations
   * Highly recommended for kids to practice problems everyday to improve math!!!
